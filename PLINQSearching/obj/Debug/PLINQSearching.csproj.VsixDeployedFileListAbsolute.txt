@@ -1,0 +1,4 @@
+C:\Users\conno\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Connor Bradley\PLINQSearching\1.0\\PLINQSearching.dll
+C:\Users\conno\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Connor Bradley\PLINQSearching\1.0\\PLINQSearching.pdb
+C:\Users\conno\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Connor Bradley\PLINQSearching\1.0\\PLINQSearching.pkgdef
+C:\Users\conno\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\Connor Bradley\PLINQSearching\1.0\\extension.vsixmanifest
