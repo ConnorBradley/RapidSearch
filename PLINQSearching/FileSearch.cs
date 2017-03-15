@@ -15,16 +15,16 @@ namespace PLINQSearching
 
         public static string workingDirectory = "";
 
-        public static DTE getCurrentDTE(IServiceProvider provider)
+        public static DTE GetCurrentDTE(IServiceProvider provider)
         {
             var vs = (DTE) provider.GetService(typeof(DTE));
             return vs;
         }
 
 
-        public static DTE getCurrentDTE()
+        public static DTE GetCurrentDTE()
         {
-            return getCurrentDTE(ServiceProvider.GlobalProvider);
+            return GetCurrentDTE(ServiceProvider.GlobalProvider);
         }
 
 
@@ -36,9 +36,14 @@ namespace PLINQSearching
 
             foreach (var d in Directory.GetDirectories(directory))
             {
+                //skip this iteration if the directory is blacklisted
+                if (Blacklist.Folders.Any(d.Contains)) continue;
                 foreach (var f in Directory.GetFiles(d))
-                {
+                {                 
                     var file = new FileInfo(f);
+                    //skip this iteration if the extension is blacklisted (most likely due to it not being a text file)
+                    if (Blacklist.Extensions.Any(file.Extension.Contains)) continue;
+
                     var lines = File.ReadAllLines(file.FullName);
                     var lineNumber = 0;
                     foreach (var line in lines)
@@ -56,16 +61,26 @@ namespace PLINQSearching
         }
 
  
-
+        /// <summary>
+        /// Basic search using the .Contains method
+        /// </summary>
+        /// <param name="searchTerm">string to search with</param>
+        /// <returns></returns>
         public static List<LineDetails> SearchFiles(string searchTerm)
         {
-            var dir = GetSolutionDirectory(getCurrentDTE());
-            //var fileContents = from file in GetAllFilesInFolder(dir)
-            //    from line in File.ReadAllLines(file.FullName)
-            //    where line.Contains(searchTerm)
-            //    select new {File = file, Line = line};
+            return GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE())).Where(line => line.LineContent.Contains(searchTerm)).ToList();
+        }
 
-            return GetAllFilesInFolder(dir).Where(line => line.LineContent.Contains(searchTerm)).ToList();
+        /// <summary>
+        /// Search using the .IndexOf method and StringComparison.OrdinalIgnoreCase
+        /// This is meant to be really fast due to the use of unmanaged code
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        public static List<LineDetails> IndexOfSearch(string searchTerm)
+        {
+            return GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE()))
+                .Where(line => line.LineContent.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) > 0).ToList();
         }
 
         public static string GetSolutionDirectory(DTE dte)

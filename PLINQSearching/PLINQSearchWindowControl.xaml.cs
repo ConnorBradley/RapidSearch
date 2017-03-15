@@ -40,7 +40,7 @@ namespace PLINQSearching
             var sw = new Stopwatch();
             sw.Start();
 
-            var matches = FileSearch.SearchFiles(textBox.Text);
+            var matches = FileSearch.IndexOfSearch(textBox.Text);
 
             var dt = new DataTable();
 
