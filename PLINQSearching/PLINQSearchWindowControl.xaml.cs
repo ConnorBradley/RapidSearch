@@ -4,6 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -36,54 +37,68 @@ namespace PLINQSearching
             Justification = "Default event handler naming pattern")]
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            var sw = new Stopwatch();
-            sw.Start();
-
-            var matches = FileSearch.IndexOfSearch(textBox.Text);
-
-            var dt = new DataTable();
-
-            dt.Columns.Add("FileName", typeof(string));
-            dt.Columns.Add("LineNo", typeof(int));
-            dt.Columns.Add("Content", typeof(string));
-
-
-            foreach (var match in matches)
+            try
             {
-                dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+                var sw = new Stopwatch();
+                sw.Start();
+
+                var matches = FileSearch.IndexOfSearch(textBox.Text);
+
+                var dt = new DataTable();
+
+                dt.Columns.Add("FileName", typeof(string));
+                dt.Columns.Add("LineNo", typeof(int));
+                dt.Columns.Add("Content", typeof(string));
+
+
+                foreach (var match in matches)
+                {
+                    dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+                }
+
+
+                ResultsStorage.ResultsDataTable = dt;
+
+                sw.Stop();
+                MessageBox.Show(sw.Elapsed.ToString("g"));
             }
-            
-
-            ResultsStorage.ResultsDataTable = dt;
-
-            sw.Stop();
-            MessageBox.Show(sw.Elapsed.ToString("g"));
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             //d.populateDataGrid(dt);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var sw = new Stopwatch();
-            sw.Start();
-
-            var matches = FileSearch.SearchFiles(textBox.Text);
-
-            var dt = new DataTable();
-
-            dt.Columns.Add("FileName", typeof(string));
-            dt.Columns.Add("LineNo", typeof(int));
-            dt.Columns.Add("Content", typeof(string));
-
-            foreach (var match in matches)
+            try
             {
-                dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+                var sw = new Stopwatch();
+                sw.Start();
+
+                var matches = FileSearch.SearchFiles(textBox.Text);
+
+                var dt = new DataTable();
+
+                dt.Columns.Add("FileName", typeof(string));
+                dt.Columns.Add("LineNo", typeof(int));
+                dt.Columns.Add("Content", typeof(string));
+
+                foreach (var match in matches)
+                {
+                    dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+                }
+
+
+                ResultsStorage.ResultsDataTable = dt;
+
+                sw.Stop();
+                MessageBox.Show(sw.Elapsed.ToString("g"));
             }
-          
-
-            ResultsStorage.ResultsDataTable = dt;
-
-            sw.Stop();
-            MessageBox.Show(sw.Elapsed.ToString("g"));
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
