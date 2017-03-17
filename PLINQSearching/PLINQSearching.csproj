@@ -76,6 +76,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="file.txt" />
     <Content Include="index.html" />
     <VSCTCompile Include="PLINQSearchWindowPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>

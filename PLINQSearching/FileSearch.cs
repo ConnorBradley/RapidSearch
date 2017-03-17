@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Shapes;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
@@ -31,33 +32,42 @@ namespace PLINQSearching
         private static List<LineDetails> GetAllFilesInFolder(string directory,
             List<LineDetails> listToAppend = default(List<LineDetails>))
         {
-            if (listToAppend == default(List<LineDetails>))
-                listToAppend = new List<LineDetails>();
-
-            foreach (var d in Directory.GetDirectories(directory))
+            try
             {
-                //skip this iteration if the directory is blacklisted
-                if (Blacklist.Folders.Any(d.Contains)) continue;
-                foreach (var f in Directory.GetFiles(d))
-                {                 
-                    var file = new FileInfo(f);
-                    //skip this iteration if the extension is blacklisted (most likely due to it not being a text file)
-                    if (Blacklist.Extensions.Any(file.Extension.Contains)) continue;
 
-                    var lines = File.ReadAllLines(file.FullName);
-                    var lineNumber = 0;
-                    foreach (var line in lines)
+
+                if (listToAppend == default(List<LineDetails>))
+                    listToAppend = new List<LineDetails>();
+
+                foreach (var d in Directory.GetDirectories(directory))
+                {
+                    //skip this iteration if the directory is blacklisted
+                    if (Blacklist.Folders.Any(d.Contains)) continue;
+                    foreach (var f in Directory.GetFiles(d))
                     {
-                        lineNumber++;
-                        var lineDetails = new LineDetails(file, lineNumber, line);
-                        listToAppend.Add(lineDetails);
+                        var file = new FileInfo(f);
+                        //skip this iteration if the extension is blacklisted (most likely due to it not being a text file)
+                        if (Blacklist.Extensions.Any(file.Extension.Contains)) continue;
+
+                        var lines = File.ReadAllLines(file.FullName);
+                        var lineNumber = 0;
+                        foreach (var line in lines)
+                        {
+                            lineNumber++;
+                            var lineDetails = new LineDetails(file, lineNumber, line);
+                            listToAppend.Add(lineDetails);
+                        }
                     }
+
+                    GetAllFilesInFolder(d, listToAppend);
                 }
 
-                GetAllFilesInFolder(d, listToAppend);
+                return listToAppend;
             }
-
-            return listToAppend;
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
  

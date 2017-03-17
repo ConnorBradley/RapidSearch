@@ -6,35 +6,34 @@
 
 using System.Data;
 using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace PLINQSearching
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Windows;
-    using System.Windows.Controls;
-
     /// <summary>
-    /// Interaction logic for PLINQSearchWindowControl.
+    ///     Interaction logic for PLINQSearchWindowControl.
     /// </summary>
     public partial class PLINQSearchWindowControl : UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PLINQSearchWindowControl"/> class.
+        ///     Initializes a new instance of the <see cref="PLINQSearchWindowControl" /> class.
         /// </summary>
         public PLINQSearchWindowControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
-        /// Handles click on the button by displaying a message box.
+        ///     Handles click on the button by displaying a message box.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event args.</param>
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "Sample code")]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Default event handler naming pattern")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter",
+            Justification = "Default event handler naming pattern")]
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             var sw = new Stopwatch();
@@ -49,24 +48,42 @@ namespace PLINQSearching
             dt.Columns.Add("Content", typeof(string));
 
 
-            using (
-                System.IO.StreamWriter file =
-                    new System.IO.StreamWriter(FileSearch.workingDirectory + "\\searchresults.txt"))
+            foreach (var match in matches)
             {
-                foreach (var match in matches)
-                {
-                        file.WriteLine(match.FileInfo.FullName + "----" + match.LineNo + "----" + match.LineContent);
-                        dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
-                }
-
+                dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
             }
+            
 
             ResultsStorage.ResultsDataTable = dt;
 
             sw.Stop();
             MessageBox.Show(sw.Elapsed.ToString("g"));
             //d.populateDataGrid(dt);
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var matches = FileSearch.SearchFiles(textBox.Text);
+
+            var dt = new DataTable();
+
+            dt.Columns.Add("FileName", typeof(string));
+            dt.Columns.Add("LineNo", typeof(int));
+            dt.Columns.Add("Content", typeof(string));
+
+            foreach (var match in matches)
+            {
+                dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+            }
+          
+
+            ResultsStorage.ResultsDataTable = dt;
+
+            sw.Stop();
+            MessageBox.Show(sw.Elapsed.ToString("g"));
         }
     }
 }
