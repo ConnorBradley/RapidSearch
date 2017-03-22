@@ -6,6 +6,12 @@ This is submitted as my final year project.
 Ideally this will be a much faster way of searching through code, techniques such as Boyer-Moore searching, indexing etc... will be looked at.
 
 #Current Issues:
+- UML Diagrams
+
+- Unit tests
+
+- Record how long a file takes to search using the default Visual Studio plugin data by videoing the process
+
 - Memory Management - possible solution to analyse file by file, or line by line rather than getting the whole solution in one chunk.
 
 - Poor UI
@@ -17,4 +23,7 @@ Ideally this will be a much faster way of searching through code, techniques suc
 - ALgorithm is far from efficient yet
 
 - No Boyer-Moore implementation
+
+- Polish the product and then write the report
+
 
