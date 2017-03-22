@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Text;
 
 namespace PLINQSearching
 {
@@ -12,7 +13,6 @@ namespace PLINQSearching
         public FileInfo FileInfo { get; set; }
         public int LineNo { get; set; }
         public string LineContent { get; set; }
-
 
         public LineDetails(FileInfo fileInfo, int lineNo, string lineContent)
         {

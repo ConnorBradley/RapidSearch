@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Windows.Shapes;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text;
 
 namespace PLINQSearching
 {
@@ -16,13 +17,16 @@ namespace PLINQSearching
 
         public static string workingDirectory = "";
 
-        public static DTE GetCurrentDTE(IServiceProvider provider)
+        private static DTE GetCurrentDTE(IServiceProvider provider)
         {
             var vs = (DTE) provider.GetService(typeof(DTE));
             return vs;
         }
 
-
+        /// <summary>
+        /// Get the visual studio element
+        /// </summary>
+        /// <returns></returns>
         public static DTE GetCurrentDTE()
         {
             return GetCurrentDTE(ServiceProvider.GlobalProvider);
@@ -32,9 +36,7 @@ namespace PLINQSearching
         private static List<LineDetails> GetAllFilesInFolder(string directory,
             List<LineDetails> listToAppend = default(List<LineDetails>))
         {
-            try
-            {
-
+   
 
                 if (listToAppend == default(List<LineDetails>))
                     listToAppend = new List<LineDetails>();
@@ -63,11 +65,7 @@ namespace PLINQSearching
                 }
 
                 return listToAppend;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            
         }
 
  

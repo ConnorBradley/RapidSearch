@@ -15,6 +15,6 @@ namespace PLINQSearching
         /// </summary>
         public static string[] Folders { get; } = {"packages", "bin", "obj"};
 
-        public static string[] Extensions { get; } = {".exe", ".dll", ".jpg", ".png", ".gif", ".ico", ".snk"};
+        public static string[] Extensions { get; } = {".exe", ".dll", ".jpg", ".png", ".gif", ".ico", ".snk", ".suo"};
     }
 }

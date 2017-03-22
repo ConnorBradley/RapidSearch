@@ -4,6 +4,13 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using Microsoft.VisualStudio.Shell;
+
 namespace PLINQSearching
 {
     using System.Diagnostics.CodeAnalysis;
@@ -34,6 +41,43 @@ namespace PLINQSearching
         {
             dataGrid.DataContext = ResultsStorage.ResultsDataTable.DefaultView;
             dataGrid.UpdateLayout();
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+
+                DataRowView row = (DataRowView) dataGrid.SelectedItems[0];
+                LineDetails line = new LineDetails(new FileInfo(row[0].ToString()), (int)row[1], (string)row[2]);
+
+
+                var dte = FileSearch.GetCurrentDTE();
+                try
+                {
+                    //File is opened within VisualStudio 
+                    dte.Windows.Item(line.FileInfo.Name).Activate();
+                }
+                catch
+                {
+                    try
+                    {
+                        //File is not open
+                        dte.ExecuteCommand("File.OpenFile", line.FileInfo.Name);
+                        dte.Windows.Item(line.FileInfo.Name).Activate();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+                }
+                System.Threading.Thread.Sleep(500);
+                dte.ExecuteCommand("Edit.GoTo", line.LineNo.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
