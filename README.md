@@ -16,8 +16,6 @@ Ideally this will be a much faster way of searching through code, techniques suc
 
 - Poor UI
 
-- Need navigation to jump to the string match
-
 - No way of getting an accurate timing of the default searching system
 
 - ALgorithm is far from efficient yet
@@ -25,5 +23,3 @@ Ideally this will be a much faster way of searching through code, techniques suc
 - No Boyer-Moore implementation
 
 - Polish the product and then write the report
-
-

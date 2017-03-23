@@ -35,7 +35,7 @@ namespace PLINQSearching
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "Sample code")]
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter",
             Justification = "Default event handler naming pattern")]
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void IndexOf_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace PLINQSearching
             //d.populateDataGrid(dt);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ContainsSearch_Click(object sender, RoutedEventArgs e)
         {
             try
             {

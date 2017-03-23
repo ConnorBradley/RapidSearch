@@ -37,7 +37,7 @@ namespace PLINQSearching
         /// <param name="e">The event args.</param>
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "Sample code")]
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Default event handler naming pattern")]
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void RefreshDataGrid_Click(object sender, RoutedEventArgs e)
         {
             dataGrid.DataContext = ResultsStorage.ResultsDataTable.DefaultView;
             dataGrid.UpdateLayout();

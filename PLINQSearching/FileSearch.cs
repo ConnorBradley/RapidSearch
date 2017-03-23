@@ -32,8 +32,13 @@ namespace PLINQSearching
             return GetCurrentDTE(ServiceProvider.GlobalProvider);
         }
 
-
-        private static List<LineDetails> GetAllFilesInFolder(string directory,
+        /// <summary>
+        /// Public for unit testing
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <param name="listToAppend"></param>
+        /// <returns></returns>
+        public static List<LineDetails> GetAllFilesInFolder(string directory,
             List<LineDetails> listToAppend = default(List<LineDetails>))
         {
    
@@ -68,15 +73,20 @@ namespace PLINQSearching
             
         }
 
- 
+
         /// <summary>
         /// Basic search using the .Contains method
         /// </summary>
         /// <param name="searchTerm">string to search with</param>
+        /// <param name="currentDirectory"></param>
         /// <returns></returns>
-        public static List<LineDetails> SearchFiles(string searchTerm)
+        public static List<LineDetails> SearchFiles(string searchTerm, string currentDirectory = null)
         {
-            return GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE())).Where(line => line.LineContent.Contains(searchTerm)).ToList();
+            if (currentDirectory == null)
+            {
+                currentDirectory = GetSolutionDirectory(GetCurrentDTE());
+            }
+            return GetAllFilesInFolder(currentDirectory).Where(line => line.LineContent.Contains(searchTerm)).ToList();
         }
 
         /// <summary>

@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Margin="10" HorizontalAlignment="Center">Results</TextBlock>
-            <Button Content="Click me!" Click="button1_Click" Width="120" Height="28" Name="button1" Margin="90,0"/>
+            <Button Content="Click me!" Click="RefreshDataGrid_Click" Width="120" Height="28" Name="button1" Margin="90,0"/>
             <DataGrid x:Name="dataGrid" ItemsSource="{Binding}" SelectionChanged="dataGrid_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow"/>
         </StackPanel>
     </Grid>

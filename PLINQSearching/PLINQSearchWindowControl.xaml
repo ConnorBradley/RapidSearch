@@ -11,8 +11,8 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Margin="10" HorizontalAlignment="Center">PLINQSearchWindow</TextBlock>
-            <Button Content="IndexOf" Click="button1_Click" Width="120" Height="22" Name="button1" Margin="90,0"/>
-            <Button Content="Contains" Margin="90,0" Click="Button_Click"/>
+            <Button Content="IndexOf" Click="IndexOf_Click" Width="120" Height="22" Name="button1" Margin="90,0"/>
+            <Button Content="Contains" Margin="90,0" Click="ContainsSearch_Click"/>
             <Button Content="Boyer-Moore" Margin="90,0"/>
             <Button Content="Naive" Margin="90,0"/>
             <TextBox x:Name="textBox" Height="23" TextWrapping="Wrap" Text="TextBox"/>
