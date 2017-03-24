@@ -80,3 +80,4 @@ C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLI
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearching\obj\Debug\PLINQSearching.pkgdef
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearching\obj\Debug\PLINQSearching.latest.pkgdef
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearching\obj\Debug\extension.vsixmanifest
+C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearching\obj\Debug\PLINQSearching.csprojResolveAssemblyReference.cache

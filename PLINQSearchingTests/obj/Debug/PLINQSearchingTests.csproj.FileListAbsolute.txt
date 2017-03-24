@@ -4,6 +4,7 @@ C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLI
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\PLINQSearching.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.14.0.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Interop.dll
+C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.11.0.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.OLE.Interop.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.TextManager.Interop.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.VSHelp.dll
@@ -11,7 +12,6 @@ C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLI
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.10.0.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.14.0.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Threading.dll
-C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.11.0.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Interop.8.0.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Interop.9.0.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.TextManager.Interop.8.0.dll
@@ -27,13 +27,13 @@ C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLI
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\stdole.dll
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.14.0.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Interop.xml
+C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.11.0.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.OLE.Interop.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.TextManager.Interop.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Utilities.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.10.0.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.14.0.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Threading.xml
-C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.11.0.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Interop.8.0.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.Shell.Interop.9.0.xml
 C:\Users\conno\onedrive\documents\visual studio 2015\Projects\PLINQSearching\PLINQSearchingTests\bin\Debug\Microsoft.VisualStudio.TextManager.Interop.8.0.xml

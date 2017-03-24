@@ -8,8 +8,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
+using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.PlatformUI;
+using Color = System.Windows.Media.Color;
 
 namespace PLINQSearching
 {
@@ -22,12 +27,45 @@ namespace PLINQSearching
     /// </summary>
     public partial class ResultsControl : UserControl
     {
+ 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultsControl"/> class.
         /// </summary>
         public ResultsControl()
         {
+            
+            VSColorTheme.ThemeChanged += VSColorTheme_ThemeChanged;
+
             this.InitializeComponent();
+            ChangeColours();
+        }
+
+        private void VSColorTheme_ThemeChanged(ThemeChangedEventArgs e)
+        {
+            ChangeColours();
+        }
+
+
+        private void ChangeColours()
+        {
+            try
+            {
+                var background = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowBackgroundBrushKey);
+                var backgroundColor = System.Windows.Media.Color.FromArgb(background.A, background.R, background.G, background.B);
+                button1.Background = new SolidColorBrush(backgroundColor);
+
+                var foreground = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowTextColorKey);
+                var foreGroundColor = System.Windows.Media.Color.FromArgb(foreground.A, foreground.R, foreground.G, foreground.B);
+                button1.Foreground = new SolidColorBrush(foreGroundColor);
+
+                dataGrid.Foreground = new SolidColorBrush(foreGroundColor);
+                dataGrid.RowBackground = new SolidColorBrush(backgroundColor);
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         /// <summary>

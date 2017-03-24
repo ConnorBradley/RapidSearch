@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="file.txt" />
-    <Content Include="index.html" />
     <VSCTCompile Include="PLINQSearchWindowPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
@@ -86,7 +85,6 @@
     <Content Include="Resources\PLINQSearchWindowCommand.png" />
     <Content Include="Resources\PLINQSearchWindowPackage.ico" />
     <Content Include="Resources\ResultsCommand.png" />
-    <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="PLINQSearchWindowControl.xaml">
