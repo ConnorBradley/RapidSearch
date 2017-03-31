@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
@@ -37,7 +39,16 @@ namespace PLINQSearching
             VSColorTheme.ThemeChanged += VSColorTheme_ThemeChanged;
 
             this.InitializeComponent();
+
+            if (ResultsStorage.ResultsDataTable != null)
+            {
+                dataGrid.DataContext = ResultsStorage.ResultsDataTable.DefaultView;
+                dataGrid.UpdateLayout();
+            }
+
             ChangeColours();
+            //System.Threading.Tasks.Task.Run(() => RefreshGrid());
+
         }
 
         private void VSColorTheme_ThemeChanged(ThemeChangedEventArgs e)
@@ -81,8 +92,45 @@ namespace PLINQSearching
             dataGrid.UpdateLayout();
         }
 
+
+        public void RefreshGrid()
+        {
+            if (ResultsStorage.ResultsDataTable != null)
+            {
+                dataGrid.DataContext = ResultsStorage.ResultsDataTable.DefaultView;
+                dataGrid.UpdateLayout();
+            }
+            //try
+            //{
+            //    do
+            //    {
+            //        Thread.Sleep(100);
+            //        if (!ResultsStorage.SearchResultsChanged) continue;
+            //        //if (Application.Current.Dispatcher.CheckAccess())
+            //        //{
+            //        Thread.Sleep(1000); //wait for thread controlling datatable to stop
+            //        dataGrid.DataContext = null;
+            //        dataGrid.DataContext = ResultsStorage.ResultsDataTable.DefaultView;
+            //        dataGrid.UpdateLayout();
+            //        ResultsStorage.SearchResultsChanged = false;
+            //        //}
+            //        //else
+            //        //{
+            //        //    Application.Current.Dispatcher.Invoke(new System.Action(RefreshGrid));
+            //        //}
+
+            //    } while (true);
+            //}
+            //catch(Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString());
+            //}
+        }
+ 
+
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //try catch methods are expensive and having 3 in a row isn't good, TODO Refactor
             try
             {
 
@@ -117,5 +165,6 @@ namespace PLINQSearching
                 MessageBox.Show(ex.ToString());
             }
         }
+
     }
 }

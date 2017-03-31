@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace PLINQSearching
 {
-    public static class ResultsStorage
+    public static class ResultsStorage 
     {
+        public static bool SearchResultsChanged;
         public static DataTable ResultsDataTable;
     }
 }

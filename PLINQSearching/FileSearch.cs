@@ -86,7 +86,10 @@ namespace PLINQSearching
             {
                 currentDirectory = GetSolutionDirectory(GetCurrentDTE());
             }
-            return GetAllFilesInFolder(currentDirectory).Where(line => line.LineContent.Contains(searchTerm)).ToList();
+            
+            var results =  GetAllFilesInFolder(currentDirectory).Where(line => line.LineContent.Contains(searchTerm)).ToList();
+            ResultsStorage.SearchResultsChanged = true;
+            return results;
         }
 
         /// <summary>
@@ -97,8 +100,11 @@ namespace PLINQSearching
         /// <returns></returns>
         public static List<LineDetails> IndexOfSearch(string searchTerm)
         {
-            return GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE()))
+            
+            var results =  GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE()))
                 .Where(line => line.LineContent.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) > 0).ToList();
+            ResultsStorage.SearchResultsChanged = true;
+            return results;
         }
 
         public static string GetSolutionDirectory(DTE dte)

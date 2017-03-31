@@ -10,6 +10,8 @@ Ideally this will be a much faster way of searching through code, techniques suc
 
 - Unit tests
 
+- Format the directory names in the results tab to just include the file name.
+
 - Record how long a file takes to search using the default Visual Studio plugin data by videoing the process
 
 - Memory Management - possible solution to analyse file by file, or line by line rather than getting the whole solution in one chunk.
@@ -22,4 +24,4 @@ Ideally this will be a much faster way of searching through code, techniques suc
 
 - No Boyer-Moore implementation
 
-- Polish the product and then write the report
+- Polish the product and then write the repo
