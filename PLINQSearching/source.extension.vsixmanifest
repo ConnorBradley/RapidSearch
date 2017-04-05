@@ -3,7 +3,7 @@
   <Metadata>
     <Identity Id="PLINQSearching.Connor Bradley.d1071619-1549-4c10-af47-e464e0619212" Version="1.0" Language="en-US" Publisher="Connor Bradley" />
     <DisplayName>PLINQSearching</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description xml:space="preserve">Rapid Searching Plugin</Description>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />

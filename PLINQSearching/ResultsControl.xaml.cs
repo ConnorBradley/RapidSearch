@@ -63,11 +63,11 @@ namespace PLINQSearching
             {
                 var background = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowBackgroundBrushKey);
                 var backgroundColor = System.Windows.Media.Color.FromArgb(background.A, background.R, background.G, background.B);
-                button1.Background = new SolidColorBrush(backgroundColor);
+                //button1.Background = new SolidColorBrush(backgroundColor);
 
                 var foreground = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowTextColorKey);
                 var foreGroundColor = System.Windows.Media.Color.FromArgb(foreground.A, foreground.R, foreground.G, foreground.B);
-                button1.Foreground = new SolidColorBrush(foreGroundColor);
+                //button1.Foreground = new SolidColorBrush(foreGroundColor);
 
                 dataGrid.Foreground = new SolidColorBrush(foreGroundColor);
                 dataGrid.RowBackground = new SolidColorBrush(backgroundColor);

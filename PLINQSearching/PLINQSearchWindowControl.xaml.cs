@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.VisualStudio.PlatformUI;
+using Microsoft.VisualStudio.Shell;
 
 namespace PLINQSearching
 {
@@ -29,7 +30,7 @@ namespace PLINQSearching
             VSColorTheme.ThemeChanged += VSColorTheme_ThemeChanged;
 
             InitializeComponent();
-
+             
             ChangeColours();
         }
 
@@ -152,7 +153,7 @@ namespace PLINQSearching
                         Content = new ResultsControl()
                         
                     };
-                    window.AllowsTransparency = true;
+                  
                     window.Show();
 
                     sw.Stop();
