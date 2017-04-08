@@ -5,6 +5,7 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -22,11 +23,15 @@ namespace PLINQSearching
     /// </summary>
     public partial class PLINQSearchWindowControl : UserControl
     {
+
+        public List<LineDetails> solutionContents = new List<LineDetails>();
         /// <summary>
         ///     Initializes a new instance of the <see cref="PLINQSearchWindowControl" /> class.
         /// </summary>
         public PLINQSearchWindowControl()
         {
+            solutionContents = FileSearch.GetAllFilesInFolder(FileSearch.GetSolutionDirectory(FileSearch.GetCurrentDTE()));
+
             VSColorTheme.ThemeChanged += VSColorTheme_ThemeChanged;
 
             InitializeComponent();
@@ -88,10 +93,10 @@ namespace PLINQSearching
                 {
 
                     var sw = new Stopwatch();
+
                     sw.Start();
-
-                    var matches = FileSearch.IndexOfSearch(txtSearchTerm.Text);
-
+                    var matches = FileSearch.IndexOfSearch(txtSearchTerm.Text, solutionContents);
+                    sw.Stop();
                     var dt = new DataTable();
 
                     dt.Columns.Add("FileName", typeof(string));
@@ -108,7 +113,7 @@ namespace PLINQSearching
                     ResultsStorage.ResultsDataTable = dt;
 
 
-                    sw.Stop();
+                    
                     MessageBox.Show(sw.Elapsed.ToString("g"));
                 }
             }
@@ -131,8 +136,8 @@ namespace PLINQSearching
                 {
                     var sw = new Stopwatch();
                     sw.Start();
-
                     var matches = FileSearch.SearchFiles(txtSearchTerm.Text);
+                    sw.Stop();
 
                     var dt = new DataTable();
 
@@ -156,7 +161,7 @@ namespace PLINQSearching
                   
                     window.Show();
 
-                    sw.Stop();
+                    
                     MessageBox.Show(sw.Elapsed.ToString("g"));
                 }
             }
@@ -164,6 +169,54 @@ namespace PLINQSearching
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void btnBoyerMoore_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (txtSearchTerm.Text == string.Empty)
+                {
+                    MessageBox.Show("Please enter a search term");
+                }
+                else
+                {
+                    var sw = new Stopwatch();
+                    sw.Start();
+
+                    var matches = FileSearch.BoyerMooreSearch2(txtSearchTerm.Text, solutionContents);
+                    sw.Stop();
+
+                    var dt = new DataTable();
+
+                    dt.Columns.Add("FileName", typeof(string));
+                    dt.Columns.Add("LineNo", typeof(int));
+                    dt.Columns.Add("Content", typeof(string));
+
+                    foreach (var match in matches)
+                    {
+                        dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+                    }
+
+
+                    ResultsStorage.ResultsDataTable = dt;
+                    Window window = new Window
+                    {
+                        Title = "Search Results",
+                        Content = new ResultsControl()
+
+                    };
+
+                    window.Show();
+                    
+                    MessageBox.Show(sw.Elapsed.ToString("g"));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
         }
     }
 }

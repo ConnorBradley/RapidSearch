@@ -4,6 +4,9 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Shapes;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
@@ -14,8 +17,9 @@ namespace PLINQSearching
     public static class FileSearch
     {
         public static DataTable results = new DataTable();
-
+        private static Dictionary<char, int> _table = new Dictionary<char, int>();
         public static string workingDirectory = "";
+        private static UnicodeSkipArray _skipArray;
 
         private static DTE GetCurrentDTE(IServiceProvider provider)
         {
@@ -98,14 +102,101 @@ namespace PLINQSearching
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public static List<LineDetails> IndexOfSearch(string searchTerm)
+        public static List<LineDetails> IndexOfSearch(string searchTerm, List<LineDetails> solutionContents )
+        {
+            var res = new List<LineDetails>();
+
+            Parallel.ForEach(solutionContents, line =>
+            {
+                if (line.LineContent.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) > 0)
+                {
+                    res.Add(line);
+                }
+            });
+
+            return res;
+
+            //var results =  GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE()))
+            //    .Where(line => line.LineContent.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) > 0).ToList();
+            //ResultsStorage.SearchResultsChanged = true;
+            //return results;
+        }
+
+        public static List<LineDetails> BoyerMooreSearch2(string searchTerm, List<LineDetails> solutionContents)
         {
             
-            var results =  GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE()))
-                .Where(line => line.LineContent.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) > 0).ToList();
-            ResultsStorage.SearchResultsChanged = true;
-            return results;
+            var retVal = new List<LineDetails>();
+
+           Initialize(searchTerm);
+
+
+            Parallel.ForEach(solutionContents, line =>
+            {
+                if (SearchBoyer(line, searchTerm))
+                {
+                    retVal.Add(line);
+                }
+            });
+
+            //foreach (var line in solutionContents)
+            //{
+            //    if (SearchBoyer(line, searchTerm))
+            //    {
+            //        retVal.Add(line);
+            //    }
+
+            //}
+
+            return retVal;
         }
+
+
+        public static void Initialize(string pattern)
+        {
+              // Create multi-stage skip table
+            _skipArray = new UnicodeSkipArray(pattern.Length);
+            // Initialize skip table for this pattern
+
+                for (int i = 0; i < pattern.Length - 1; i++)
+                {
+                    _skipArray[Char.ToLower(pattern[i])] = (byte)(pattern.Length - i - 1);
+                    _skipArray[Char.ToUpper(pattern[i])] = (byte)(pattern.Length - i - 1);
+                }
+        }
+
+
+        /// <summary>
+        /// Searches for the current pattern within the given text
+        /// starting at the specified index.
+        /// </summary>
+        /// <param name="text">Text to search</param>
+        /// <returns></returns>
+        public static bool SearchBoyer(LineDetails text, string searchTerm)
+        {
+            var i = 0;
+            // Loop while there's still room for search term
+            while (i <= (text.LineContent.Length - searchTerm.Length))
+            {
+                // Look if we have a match at this position
+                int j = searchTerm.Length - 1;
+
+                    while (j >= 0 && Char.ToUpper(searchTerm[j]) == Char.ToUpper(text.LineContent[i + j]))
+                        j--;
+                
+                if (j < 0)
+                {
+                    // Match found
+                    return true;
+                }
+
+                // Advance to next comparision
+                i += Math.Max(_skipArray[text.LineContent[i + j]] - searchTerm.Length + 1 + j, 1);
+            }
+            // No match found
+            return false;
+        }
+
+ 
 
         public static string GetSolutionDirectory(DTE dte)
         {

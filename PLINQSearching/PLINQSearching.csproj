@@ -67,6 +67,7 @@
       <DependentUpon>ResultsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResultsStorage.cs" />
+    <Compile Include="UnicodeSkipArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

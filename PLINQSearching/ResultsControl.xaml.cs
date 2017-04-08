@@ -130,7 +130,7 @@ namespace PLINQSearching
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //try catch methods are expensive and having 3 in a row isn't good, TODO Refactor
+            
             try
             {
 
@@ -141,7 +141,7 @@ namespace PLINQSearching
                 var dte = FileSearch.GetCurrentDTE();
                 try
                 {
-                    //File is opened within VisualStudio 
+                    //File is opened within VisualStudio
                     dte.Windows.Item(line.FileInfo.Name).Activate();
                 }
                 catch

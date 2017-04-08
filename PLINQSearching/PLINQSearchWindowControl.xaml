@@ -12,7 +12,7 @@
             <TextBlock Margin="10" HorizontalAlignment="Center">PLINQSearchWindow</TextBlock>
             <Button Content="IndexOf" Click="IndexOf_Click" Width="120" Height="22" x:Name="btnIndexOf" Margin="90,0"/>
             <Button x:Name="btnContains" Content="Contains" Margin="90,0" Click="ContainsSearch_Click"/>
-            <Button x:Name="btnBoyerMoore" Content="Boyer-Moore" Margin="90,0"/>
+            <Button x:Name="btnBoyerMoore" Content="Boyer-Moore" Margin="90,0" Click="btnBoyerMoore_Click"/>
             <Button x:Name="btnNaive" Content="Naive" Margin="90,0"/>
             <TextBox x:Name="txtSearchTerm" Height="23" TextWrapping="Wrap"/>
         </StackPanel>
