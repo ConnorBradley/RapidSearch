@@ -71,6 +71,7 @@ namespace PLINQSearching
             PLINQSearchWindowCommand.Initialize(this);
             base.Initialize();
             ResultsCommand.Initialize(this);
+            LaunchCommand.Initialize(this);
         }
 
         #endregion

@@ -11,6 +11,8 @@ using System.Windows.Shapes;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Markup;
 
 namespace PLINQSearching
 {
@@ -19,7 +21,7 @@ namespace PLINQSearching
         public static DataTable results = new DataTable();
         private static Dictionary<char, int> _table = new Dictionary<char, int>();
         public static string workingDirectory = "";
-        private static UnicodeSkipArray _skipArray;
+        private static SkipTable _skipTable;
 
         private static DTE GetCurrentDTE(IServiceProvider provider)
         {
@@ -84,17 +86,87 @@ namespace PLINQSearching
         /// <param name="searchTerm">string to search with</param>
         /// <param name="currentDirectory"></param>
         /// <returns></returns>
-        public static List<LineDetails> SearchFiles(string searchTerm, string currentDirectory = null)
+        public static List<LineDetails> SearchFiles(string searchTerm, List<LineDetails> solutionContent, string currentDirectory = null)
         {
             if (currentDirectory == null)
             {
                 currentDirectory = GetSolutionDirectory(GetCurrentDTE());
             }
+
+            var results = new List<LineDetails>();
+
+            Parallel.ForEach(solutionContent, line =>
+            {
+                if (line.LineContent.Contains(searchTerm))
+                {
+                    results.Add(line);
+                }
+            });
+
             
-            var results =  GetAllFilesInFolder(currentDirectory).Where(line => line.LineContent.Contains(searchTerm)).ToList();
-            ResultsStorage.SearchResultsChanged = true;
+
             return results;
         }
+
+        public static List<LineDetails> NaiveStringSearch(string searchTerm, List<LineDetails> solutionContent,
+            string currentDirectory = null)
+        {
+            if (currentDirectory == null)
+            {
+                currentDirectory = GetSolutionDirectory(GetCurrentDTE());
+            }
+
+            var results = new List<LineDetails>();
+            Parallel.ForEach(solutionContent, line =>
+            {
+                //foreach (var line in solutionContent)
+                //{
+                var searchTermLength = searchTerm.Length;
+                var lineContentLength = line.LineContent.Length;
+
+                for (var i = 0; i <= lineContentLength - searchTermLength; i++)
+                {
+                    int j;
+
+                    for (j = 0; j < searchTermLength; j++)
+                    {
+                        if (!string.Equals(line.LineContent[i + j].ToString().ToLower(),
+                            searchTerm[j].ToString().ToLower(), StringComparison.Ordinal))
+                        {
+                            break;
+                        }
+                    }
+
+                    if (j == searchTermLength)
+                    {
+                        results.Add(line);
+                    }
+                }
+            });
+
+            return results;
+        }
+
+        public static List<LineDetails> RegExStringSearch(string searchTerm, List<LineDetails> solutionContent)
+        {
+
+            var results = new List<LineDetails>();
+            Parallel.ForEach(solutionContent, line =>
+            {
+                if (line.LineContent != String.Empty)
+                {
+                    Match match = Regex.Match(line.LineContent, searchTerm);
+
+                    if (match.Success)
+                    {
+                        results.Add(line);
+                    }
+                }
+            });
+
+            return results;
+        }
+
 
         /// <summary>
         /// Search using the .IndexOf method and StringComparison.OrdinalIgnoreCase
@@ -102,8 +174,13 @@ namespace PLINQSearching
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public static List<LineDetails> IndexOfSearch(string searchTerm, List<LineDetails> solutionContents )
+        public static List<LineDetails> IndexOfSearch(string searchTerm, List<LineDetails> solutionContents, string currentDirectory = null)
         {
+            if (currentDirectory == null)
+            {
+                currentDirectory = GetSolutionDirectory(GetCurrentDTE());
+            }
+
             var res = new List<LineDetails>();
 
             Parallel.ForEach(solutionContents, line =>
@@ -122,9 +199,13 @@ namespace PLINQSearching
             //return results;
         }
 
-        public static List<LineDetails> BoyerMooreSearch2(string searchTerm, List<LineDetails> solutionContents)
+        public static List<LineDetails> BoyerMooreSearch2(string searchTerm, List<LineDetails> solutionContents, string currentDirectory = null)
         {
-            
+            if (currentDirectory == null)
+            {
+                currentDirectory = GetSolutionDirectory(GetCurrentDTE());
+            }
+
             var retVal = new List<LineDetails>();
 
            Initialize(searchTerm);
@@ -138,14 +219,14 @@ namespace PLINQSearching
                 }
             });
 
-            //foreach (var line in solutionContents)
-            //{
-            //    if (SearchBoyer(line, searchTerm))
-            //    {
-            //        retVal.Add(line);
-            //    }
+           //foreach (var line in solutionContents)
+           //{
+           //    if (SearchBoyer(line, searchTerm))
+           //    {
+           //        retVal.Add(line);
+           //    }
 
-            //}
+           //}
 
             return retVal;
         }
@@ -154,13 +235,13 @@ namespace PLINQSearching
         public static void Initialize(string pattern)
         {
               // Create multi-stage skip table
-            _skipArray = new UnicodeSkipArray(pattern.Length);
+            _skipTable = new SkipTable(pattern.Length);
             // Initialize skip table for this pattern
 
                 for (int i = 0; i < pattern.Length - 1; i++)
                 {
-                    _skipArray[Char.ToLower(pattern[i])] = (byte)(pattern.Length - i - 1);
-                    _skipArray[Char.ToUpper(pattern[i])] = (byte)(pattern.Length - i - 1);
+                    _skipTable[Char.ToLower(pattern[i])] = (byte)(pattern.Length - i - 1);
+                    _skipTable[Char.ToUpper(pattern[i])] = (byte)(pattern.Length - i - 1);
                 }
         }
 
@@ -190,7 +271,7 @@ namespace PLINQSearching
                 }
 
                 // Advance to next comparision
-                i += Math.Max(_skipArray[text.LineContent[i + j]] - searchTerm.Length + 1 + j, 1);
+                i += Math.Max(_skipTable[text.LineContent[i + j]] - searchTerm.Length + 1 + j, 1);
             }
             // No match found
             return false;

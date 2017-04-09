@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Blacklist.cs" />
     <Compile Include="FileSearch.cs" />
+    <Compile Include="LaunchCommand.cs" />
     <Compile Include="PLINQSearchWindow.cs" />
     <Compile Include="PLINQSearchWindowCommand.cs" />
     <Compile Include="PLINQSearchWindowControl.xaml.cs">
@@ -67,7 +68,7 @@
       <DependentUpon>ResultsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResultsStorage.cs" />
-    <Compile Include="UnicodeSkipArray.cs" />
+    <Compile Include="SkipTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
@@ -83,6 +84,7 @@
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
     <Content Include="Resources\DisplayResultsCommand.png" />
+    <Content Include="Resources\LaunchCommand.png" />
     <Content Include="Resources\PLINQSearchWindowCommand.png" />
     <Content Include="Resources\PLINQSearchWindowPackage.ico" />
     <Content Include="Resources\ResultsCommand.png" />

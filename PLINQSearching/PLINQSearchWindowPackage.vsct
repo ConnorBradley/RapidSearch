@@ -63,6 +63,13 @@
           <ButtonText>Results</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidPLINQSearchWindowPackageCmdSet1" id="cmdidLaunchCommand" priority="0x0100" type="Button">
+        <Parent guid="guidPLINQSearchWindowPackageCmdSet1" id="MyMenuGroup" />
+        <Icon guid="guidImages3" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Rapid Search</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -75,7 +82,13 @@
       <Bitmap guid="guidImages" href="Resources\PLINQSearchWindowCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
       <Bitmap guid="guidImages1" href="Resources\DisplayResultsCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
       <Bitmap guid="guidImages2" href="Resources\ResultsCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages3" href="Resources\LaunchCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
+    <Groups>
+      <Group guid="guidPLINQSearchWindowPackageCmdSet1" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
+    </Groups>
   </Commands>
 
   <Symbols>
@@ -108,6 +121,20 @@
     </GuidSymbol>
   
     <GuidSymbol value="{ddf17fb3-26f3-400a-b803-24fa800f4d0c}" name="guidImages2">
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPicSearch" value="3" />
+      <IDSymbol name="bmpPicX" value="4" />
+      <IDSymbol name="bmpPicArrows" value="5" />
+      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    </GuidSymbol>
+  
+    <GuidSymbol value="{a2463c9a-4def-4775-945d-aaa1b033a02f}" name="guidPLINQSearchWindowPackageCmdSet1">
+      <IDSymbol value="4128" name="MyMenuGroup" />
+      <IDSymbol value="256" name="cmdidLaunchCommand" />
+    </GuidSymbol>
+  
+    <GuidSymbol value="{3a6c054a-b174-41ae-a78b-91f7ed31b7c1}" name="guidImages3">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />

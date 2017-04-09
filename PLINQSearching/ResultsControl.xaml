@@ -7,17 +7,14 @@
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
              Name="MyToolWindow">
+
     <Grid>
-        <Viewbox>
-            <Grid>
-                <TextBlock HorizontalAlignment="Left" Width="400" Height="400"><Run Text="Results"/></TextBlock>
-                <DataGrid x:Name="dataGrid" ItemsSource="{Binding}" SelectionChanged="dataGrid_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="None" Margin="0,36,0,133" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <DataGrid.Background>
-                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
-                    </DataGrid.Background>
-                </DataGrid>
-            </Grid>
-        </Viewbox>
+        <TextBlock HorizontalAlignment="Left" Width="400" Height="400"><Run Text="Results"/></TextBlock>
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding}" SelectionChanged="dataGrid_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="None" Margin="0,36,0,133" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <DataGrid.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+            </DataGrid.Background>
+        </DataGrid>
     </Grid>
 </UserControl>
 

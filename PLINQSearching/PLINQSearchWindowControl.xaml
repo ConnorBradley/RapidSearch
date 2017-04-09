@@ -6,14 +6,15 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d" d:DesignWidth="300"
-             Name="MyToolWindow" Height="155.556" HorizontalAlignment="Left">
+             Name="MyToolWindow" HorizontalAlignment="Left" Margin="20"
+             >
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
             <TextBlock Margin="10" HorizontalAlignment="Center">PLINQSearchWindow</TextBlock>
             <Button Content="IndexOf" Click="IndexOf_Click" Width="120" Height="22" x:Name="btnIndexOf" Margin="90,0"/>
-            <Button x:Name="btnContains" Content="Contains" Margin="90,0" Click="ContainsSearch_Click"/>
             <Button x:Name="btnBoyerMoore" Content="Boyer-Moore" Margin="90,0" Click="btnBoyerMoore_Click"/>
-            <Button x:Name="btnNaive" Content="Naive" Margin="90,0"/>
+            <Button x:Name="btnNaive" Content="Naive" Margin="90,0" Click="btnNaive_Click"/>
+            <Button x:Name="btnRegEx" Content="RegEx" Width="120" Height="23" Click="RegExbutton_Click"/>
             <TextBox x:Name="txtSearchTerm" Height="23" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
