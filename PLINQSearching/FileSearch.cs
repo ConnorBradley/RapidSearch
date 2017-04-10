@@ -80,73 +80,6 @@ namespace PLINQSearching
         }
 
 
-        /// <summary>
-        /// Basic search using the .Contains method
-        /// </summary>
-        /// <param name="searchTerm">string to search with</param>
-        /// <param name="currentDirectory"></param>
-        /// <returns></returns>
-        public static List<LineDetails> SearchFiles(string searchTerm, List<LineDetails> solutionContent, string currentDirectory = null)
-        {
-            if (currentDirectory == null)
-            {
-                currentDirectory = GetSolutionDirectory(GetCurrentDTE());
-            }
-
-            var results = new List<LineDetails>();
-
-            Parallel.ForEach(solutionContent, line =>
-            {
-                if (line.LineContent.Contains(searchTerm))
-                {
-                    results.Add(line);
-                }
-            });
-
-            
-
-            return results;
-        }
-
-        public static List<LineDetails> NaiveStringSearch(string searchTerm, List<LineDetails> solutionContent,
-            string currentDirectory = null)
-        {
-            if (currentDirectory == null)
-            {
-                currentDirectory = GetSolutionDirectory(GetCurrentDTE());
-            }
-
-            var results = new List<LineDetails>();
-            Parallel.ForEach(solutionContent, line =>
-            {
-                //foreach (var line in solutionContent)
-                //{
-                var searchTermLength = searchTerm.Length;
-                var lineContentLength = line.LineContent.Length;
-
-                for (var i = 0; i <= lineContentLength - searchTermLength; i++)
-                {
-                    int j;
-
-                    for (j = 0; j < searchTermLength; j++)
-                    {
-                        if (!string.Equals(line.LineContent[i + j].ToString().ToLower(),
-                            searchTerm[j].ToString().ToLower(), StringComparison.Ordinal))
-                        {
-                            break;
-                        }
-                    }
-
-                    if (j == searchTermLength)
-                    {
-                        results.Add(line);
-                    }
-                }
-            });
-
-            return results;
-        }
-
         public static List<LineDetails> RegExStringSearch(string searchTerm, List<LineDetails> solutionContent)
         {
 
@@ -218,15 +151,6 @@ namespace PLINQSearching
                     retVal.Add(line);
                 }
             });
-
-           //foreach (var line in solutionContents)
-           //{
-           //    if (SearchBoyer(line, searchTerm))
-           //    {
-           //        retVal.Add(line);
-           //    }
-
-           //}
 
             return retVal;
         }

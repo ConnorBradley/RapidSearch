@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
-             mc:Ignorable="d" d:DesignWidth="300"
-             Name="MyToolWindow" HorizontalAlignment="Left" Margin="20"
+             mc:Ignorable="d"
+             Name="MyToolWindow" HorizontalAlignment="Stretch" Loaded="MyToolWindow_Loaded"
+            VerticalAlignment="Stretch"
              >
-    <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-            <TextBlock Margin="10" HorizontalAlignment="Center">PLINQSearchWindow</TextBlock>
-            <Button Content="IndexOf" Click="IndexOf_Click" Width="120" Height="22" x:Name="btnIndexOf" Margin="90,0"/>
-            <Button x:Name="btnBoyerMoore" Content="Boyer-Moore" Margin="90,0" Click="btnBoyerMoore_Click"/>
-            <Button x:Name="btnNaive" Content="Naive" Margin="90,0" Click="btnNaive_Click"/>
-            <Button x:Name="btnRegEx" Content="RegEx" Width="120" Height="23" Click="RegExbutton_Click"/>
-            <TextBox x:Name="txtSearchTerm" Height="23" TextWrapping="Wrap"/>
-        </StackPanel>
-    </Grid>
+
+    <Canvas Height="69" VerticalAlignment="Top">
+
+        <TextBlock HorizontalAlignment="Center">Rapid Search Window</TextBlock>
+        <TextBox x:Name="txtSearchTerm" Height="23" Width="276" Canvas.Top="21" />
+
+        <Button x:Name="btnRegEx" Content="RegEx" Width="51" Height="22" Click="RegExbutton_Click" Canvas.Left="174" Canvas.Top="45"/>
+        <Button Content="Search" Click="btnSearch_Click" Width="51" Height="22" x:Name="btnSearch" Canvas.Left="225" Canvas.Top="45"/>
+    </Canvas>
 </UserControl>

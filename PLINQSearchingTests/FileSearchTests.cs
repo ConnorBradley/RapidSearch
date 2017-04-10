@@ -13,7 +13,7 @@ namespace PLINQSearching.Tests
     public class FileSearchTests
     {
         private const string TEST_DIRECTORY =
-            @"C:\Users\conno\OneDrive\Documents\Visual Studio 2015\Projects\PLINQSearching\TestFolder\";
+            @"C:\Users\conno\OneDrive\Documents\Visual Studio 2015\Projects\RapidSearchRelease\RapidSearch\TestFolder\";
        
         [TestMethod()]
         public void GetAllFilesInFolderTest()
@@ -21,9 +21,9 @@ namespace PLINQSearching.Tests
             var actual = FileSearch.GetAllFilesInFolder(TEST_DIRECTORY);
             var expected = new List<LineDetails>
             {
-                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\PLINQSearching\\TestFolder\\TestFolder\\Test1.txt"), 1, "a"),
-                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\PLINQSearching\\TestFolder\\TestFolder\\Test2.txt"), 1, "a"),
-                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\PLINQSearching\\TestFolder\\TestFolder\\Test3.txt"), 1, "b")
+                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\RapidSearchRelease\\RapidSearch\\TestFolder\\TestFolder\\Test1.txt"), 1, "a"),
+                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\RapidSearchRelease\\RapidSearch\\TestFolder\\TestFolder\\Test2.txt"), 1, "a"),
+                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\RapidSearchRelease\\RapidSearch\\TestFolder\\TestFolder\\Test3.txt"), 1, "b")
             };
             //Note - you can't compare FileInfo variables as they will never equal.
             Assert.AreEqual(actual[0].LineContent, expected[0].LineContent);
@@ -37,11 +37,13 @@ namespace PLINQSearching.Tests
         [TestMethod()]
         public void SearchFilesTest()
         {
-            var actual = FileSearch.SearchFiles("a", TEST_DIRECTORY);
+
+            var solutionContents = FileSearch.GetAllFilesInFolder(TEST_DIRECTORY);
+            var actual = FileSearch.BoyerMooreSearch2("a", solutionContents, TEST_DIRECTORY);
             var expected = new List<LineDetails>
             {
-                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\PLINQSearching\\TestFolder\\TestFolder\\Test1.txt"), 1, "a"),
-                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\PLINQSearching\\TestFolder\\TestFolder\\Test2.txt"), 1, "a")
+                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\RapidSearchRelease\\RapidSearch\\TestFolder\\TestFolder\\Test1.txt"), 1, "a"),
+                new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\RapidSearchRelease\\RapidSearch\\TestFolder\\TestFolder\\Test2.txt"), 1, "a")
             };
             //Note - you can't compare FileInfo variables as they will never equal.
             Assert.AreEqual(actual[0].LineContent, expected[0].LineContent);

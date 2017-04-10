@@ -6,16 +6,19 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             Name="MyToolWindow">
+             Name="MyToolWindow"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
 
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Width="400" Height="400"><Run Text="Results"/></TextBlock>
-        <DataGrid x:Name="dataGrid" ItemsSource="{Binding}" SelectionChanged="dataGrid_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="None" Margin="0,36,0,133" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <TextBlock HorizontalAlignment="Left" Width="500"><Run Text="Results"/></TextBlock>
+ 
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding}" SelectionChanged="dataGrid_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="None"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,0">
             <DataGrid.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
             </DataGrid.Background>
         </DataGrid>
     </Grid>
-</UserControl>
 
+</UserControl>
     

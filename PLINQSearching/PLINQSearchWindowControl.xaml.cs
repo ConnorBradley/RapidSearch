@@ -31,11 +31,11 @@ namespace PLINQSearching
         /// </summary>
         public PLINQSearchWindowControl()
         {
-            solutionContents = FileSearch.GetAllFilesInFolder(FileSearch.GetSolutionDirectory(FileSearch.GetCurrentDTE())); 
             VSColorTheme.ThemeChanged += VSColorTheme_ThemeChanged;
 
             InitializeComponent();
-             
+            //solutionContents = FileSearch.GetAllFilesInFolder(FileSearch.GetSolutionDirectory(FileSearch.GetCurrentDTE()));
+
             ChangeColours();
         }
 
@@ -53,18 +53,14 @@ namespace PLINQSearching
         {
             var background = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowBackgroundBrushKey);
             var backgroundColor = Color.FromArgb(background.A, background.R, background.G, background.B);
-            btnIndexOf.Background = new SolidColorBrush(backgroundColor);
+            btnSearch.Background = new SolidColorBrush(backgroundColor);
             btnRegEx.Background = new SolidColorBrush(backgroundColor);
-            btnBoyerMoore.Background = new SolidColorBrush(backgroundColor);
-            btnNaive.Background = new SolidColorBrush(backgroundColor);
             txtSearchTerm.Background = new SolidColorBrush(backgroundColor);
 
             var foreground = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowTextColorKey);
             var foreGroundColor = System.Windows.Media.Color.FromArgb(foreground.A, foreground.R, foreground.G, foreground.B);
-            btnIndexOf.Foreground = new SolidColorBrush(foreGroundColor);
+            btnSearch.Foreground = new SolidColorBrush(foreGroundColor);
             btnRegEx.Foreground = new SolidColorBrush(foreGroundColor);
-            btnBoyerMoore.Foreground = new SolidColorBrush(foreGroundColor);
-            btnNaive.Foreground = new SolidColorBrush(foreGroundColor);
 
             var textSearchForeground = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowTextBrushKey);
             var textForeGroundColor = Color.FromArgb(textSearchForeground.A, textSearchForeground.R, textSearchForeground.G,
@@ -81,7 +77,7 @@ namespace PLINQSearching
         [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "Sample code")]
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter",
             Justification = "Default event handler naming pattern")]
-        private void IndexOf_Click(object sender, RoutedEventArgs e)
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -91,12 +87,24 @@ namespace PLINQSearching
                 }
                 else
                 {
+         
+                    List<LineDetails> matches = new List<LineDetails>();
 
-                    var sw = new Stopwatch();
+                    //9 is the number in which boyer-moore out performs IndexOf
+                    if (txtSearchTerm.Text.Length > 9)
+                    {
+                        matches = FileSearch.BoyerMooreSearch2(txtSearchTerm.Text, solutionContents);
+                    }
+                    else
+                    {
+                        matches = FileSearch.IndexOfSearch(txtSearchTerm.Text, solutionContents);
+                    }
 
-                    sw.Start();
-                    var matches = FileSearch.IndexOfSearch(txtSearchTerm.Text, solutionContents);
-                    sw.Stop();
+                    if (matches.Count <= 0)
+                    {
+                        MessageBox.Show("No matches were found.");
+                        return;
+                    }
                     var dt = new DataTable();
 
                     dt.Columns.Add("FileName", typeof(string));
@@ -106,7 +114,7 @@ namespace PLINQSearching
 
                     foreach (var match in matches)
                     {
-                        dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+                        dt.Rows.Add(match.FileInfo.Name, match.LineNo, match.LineContent);
                     }
 
 
@@ -120,158 +128,15 @@ namespace PLINQSearching
                     };
 
                     window.Show();
-                    MessageBox.Show(sw.Elapsed.ToString("g"));
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            //d.populateDataGrid(dt);
         }
 
-        private void ContainsSearch_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (txtSearchTerm.Text == string.Empty)
-                {
-                    MessageBox.Show("Please enter a search term");
-                }
-                else
-                {
-                    var sw = new Stopwatch();
-                    sw.Start();
-                    var matches = FileSearch.SearchFiles(txtSearchTerm.Text, solutionContents);
-                    sw.Stop();
-
-                    var dt = new DataTable();
-
-                    dt.Columns.Add("FileName", typeof(string));
-                    dt.Columns.Add("LineNo", typeof(int));
-                    dt.Columns.Add("Content", typeof(string));
-
-                    foreach (var match in matches)
-                    {
-                        dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
-                    }
-
-
-                    ResultsStorage.ResultsDataTable = dt;
-                    Window window = new Window
-                    {
-                        Title = "Search Results",
-                        Content = new ResultsControl()
-                        
-                    };
-                  
-                    window.Show();
-
-                    
-                    MessageBox.Show(sw.Elapsed.ToString("g"));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void btnBoyerMoore_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (txtSearchTerm.Text == string.Empty)
-                {
-                    MessageBox.Show("Please enter a search term");
-                }
-                else
-                {
-                    var sw = new Stopwatch();
-                    sw.Start();
-
-                    var matches = FileSearch.BoyerMooreSearch2(txtSearchTerm.Text, solutionContents);
-                    sw.Stop();
-
-                    var dt = new DataTable();
-
-                    dt.Columns.Add("FileName", typeof(string));
-                    dt.Columns.Add("LineNo", typeof(int));
-                    dt.Columns.Add("Content", typeof(string));
-
-                    foreach (var match in matches)
-                    {
-                        dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
-                    }
-
-
-                    ResultsStorage.ResultsDataTable = dt;
-                    Window window = new Window
-                    {
-                        Title = "Search Results",
-                        Content = new ResultsControl()
-
-                    };
-
-                    window.Show();
-                    
-                    MessageBox.Show(sw.Elapsed.ToString("g"));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-        }
-
-        private void btnNaive_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (txtSearchTerm.Text == string.Empty)
-                {
-                    MessageBox.Show("Please enter a search term");
-                }
-                else
-                {
-                    var sw = new Stopwatch();
-                    sw.Start();
-
-                    var matches = FileSearch.NaiveStringSearch(txtSearchTerm.Text, solutionContents);
-                    sw.Stop();
-
-                    var dt = new DataTable();
-
-                    dt.Columns.Add("FileName", typeof(string));
-                    dt.Columns.Add("LineNo", typeof(int));
-                    dt.Columns.Add("Content", typeof(string));
-
-                    foreach (var match in matches)
-                    {
-                        dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
-                    }
-
-
-                    ResultsStorage.ResultsDataTable = dt;
-                    Window window = new Window
-                    {
-                        Title = "Search Results",
-                        Content = new ResultsControl()
-
-                    };
-
-                    window.Show();
-
-                    MessageBox.Show(sw.Elapsed.ToString("g"));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
+       
         private void RegExbutton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -282,11 +147,13 @@ namespace PLINQSearching
                 }
                 else
                 {
-                    var sw = new Stopwatch();
-                    sw.Start();
-
                     var matches = FileSearch.RegExStringSearch(txtSearchTerm.Text, solutionContents);
-                    sw.Stop();
+
+                    if (matches.Count <= 0)
+                    {
+                        MessageBox.Show("No matches were found.");
+                        return;
+                    }
 
                     var dt = new DataTable();
 
@@ -296,7 +163,7 @@ namespace PLINQSearching
 
                     foreach (var match in matches)
                     {
-                        dt.Rows.Add(match.FileInfo.FullName, match.LineNo, match.LineContent);
+                        dt.Rows.Add(match.FileInfo.Name, match.LineNo, match.LineContent);
                     }
 
 
@@ -309,14 +176,22 @@ namespace PLINQSearching
                     };
 
                     window.Show();
-
-                    MessageBox.Show(sw.Elapsed.ToString("g"));
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        /// <summary>
+        /// Reloads the 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MyToolWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            solutionContents = FileSearch.GetAllFilesInFolder(FileSearch.GetSolutionDirectory(FileSearch.GetCurrentDTE()));
         }
     }
 }

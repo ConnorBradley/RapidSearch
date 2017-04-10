@@ -47,7 +47,7 @@ namespace PLINQSearching
             }
 
             ChangeColours();
-            //System.Threading.Tasks.Task.Run(() => RefreshGrid());
+            
 
         }
 
@@ -63,7 +63,7 @@ namespace PLINQSearching
             {
                 var background = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowBackgroundBrushKey);
                 var backgroundColor = System.Windows.Media.Color.FromArgb(background.A, background.R, background.G, background.B);
-                //button1.Background = new SolidColorBrush(backgroundColor);
+                
 
                 var foreground = VSColorTheme.GetThemedColor(EnvironmentColors.ToolWindowTextColorKey);
                 var foreGroundColor = System.Windows.Media.Color.FromArgb(foreground.A, foreground.R, foreground.G, foreground.B);
@@ -100,31 +100,6 @@ namespace PLINQSearching
                 dataGrid.DataContext = ResultsStorage.ResultsDataTable.DefaultView;
                 dataGrid.UpdateLayout();
             }
-            //try
-            //{
-            //    do
-            //    {
-            //        Thread.Sleep(100);
-            //        if (!ResultsStorage.SearchResultsChanged) continue;
-            //        //if (Application.Current.Dispatcher.CheckAccess())
-            //        //{
-            //        Thread.Sleep(1000); //wait for thread controlling datatable to stop
-            //        dataGrid.DataContext = null;
-            //        dataGrid.DataContext = ResultsStorage.ResultsDataTable.DefaultView;
-            //        dataGrid.UpdateLayout();
-            //        ResultsStorage.SearchResultsChanged = false;
-            //        //}
-            //        //else
-            //        //{
-            //        //    Application.Current.Dispatcher.Invoke(new System.Action(RefreshGrid));
-            //        //}
-
-            //    } while (true);
-            //}
-            //catch(Exception ex)
-            //{
-            //    MessageBox.Show(ex.ToString());
-            //}
         }
  
 
