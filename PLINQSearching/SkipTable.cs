@@ -8,23 +8,22 @@ namespace RapidSearching
 {
     internal class SkipTable
     {
-        
-        private byte _patternLength;
-        private byte[] _default;
-        private byte[][] _skipTable;
+        private readonly byte[] _standardByteArray;
+        private readonly byte[][] _alteredSkipArray;
         private const int BlockSize = 0x100;
 
+        public byte StringToSearchLength { get; set; }
 
         public SkipTable(int patternLength)
         {
-            _patternLength = (byte)patternLength;
-            _default = new byte[BlockSize];
-            InitializeBlock(_default);
+            StringToSearchLength = (byte)patternLength;
+            _standardByteArray = new byte[BlockSize];
+            InitializeBlock(_standardByteArray);
 
-            _skipTable = new byte[BlockSize][];
+            _alteredSkipArray = new byte[BlockSize][];
             for (var i = 0; i < BlockSize; i++)
             {
-                _skipTable[i] = _default;
+                _alteredSkipArray[i] = _standardByteArray;
             }
         }
 
@@ -33,32 +32,31 @@ namespace RapidSearching
         {
             get
             {
-                return _skipTable[index / BlockSize][index % BlockSize];
+                return _alteredSkipArray[index / BlockSize][index % BlockSize];
             }
             set
             {
              
-                int i = (index / BlockSize);
+                var i = (index / BlockSize);
              
-                if (_skipTable[i] == _default)
+                if (_alteredSkipArray[i] == _standardByteArray)
                 {
-                    // Yes, value goes in a new table
-                    _skipTable[i] = new byte[BlockSize];
-                    InitializeBlock(_skipTable[i]);
+                   
+                    _alteredSkipArray[i] = new byte[BlockSize];
+                    InitializeBlock(_alteredSkipArray[i]);
                 }
-                // Set value
-                _skipTable[i][index % BlockSize] = value;
+              
+                _alteredSkipArray[i][index % BlockSize] = value;
             }
         }
 
-        /// <summary>
-        /// Initializes a block to hold the current "nomatch" value.
-        /// </summary>
-        /// <param name="block">Block to be initialized</param>
-        private void InitializeBlock(byte[] block)
+
+        private void InitializeBlock(IList<byte> block)
         {
-            for (int i = 0; i < BlockSize; i++)
-                block[i] = _patternLength;
+            for (var i = 0; i < BlockSize; i++)
+            {
+                block[i] = StringToSearchLength;
+            }
         }
     }
 }

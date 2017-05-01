@@ -148,7 +148,7 @@ namespace RapidSearching
 
             Parallel.ForEach(solutionContents, line =>
             {
-                if (line.LineContent == String.Empty) return;
+                if (line.LineContent == string.Empty) return;
                 var i = 0;
 
                 while (i <= (line.LineContent.Length - searchTerm.Length))
@@ -173,16 +173,15 @@ namespace RapidSearching
         }
 
 
-        public static void Initialize(string pattern)
+        public static void Initialize(string searchTerm)
         {
-              // Create multi-stage skip table
-            _skipTable = new SkipTable(pattern.Length);
-            // Initialize skip table for this pattern
-
-                for (int i = 0; i < pattern.Length - 1; i++)
+            
+            _skipTable = new SkipTable(searchTerm.Length);
+            
+                for (int i = 0; i < searchTerm.Length - 1; i++)
                 {
-                    _skipTable[char.ToLower(pattern[i])] = (byte)(pattern.Length - i - 1);
-                    _skipTable[char.ToUpper(pattern[i])] = (byte)(pattern.Length - i - 1);
+                    _skipTable[char.ToLower(searchTerm[i])] = (byte)(searchTerm.Length - i - 1);
+                    _skipTable[char.ToUpper(searchTerm[i])] = (byte)(searchTerm.Length - i - 1);
                 }
         }
 
