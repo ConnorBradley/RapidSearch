@@ -14,13 +14,12 @@ using Microsoft.VisualStudio.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Markup;
 
-namespace PLINQSearching
+namespace RapidSearching
 {
     public static class FileSearch
     {
-        public static DataTable results = new DataTable();
-        private static Dictionary<char, int> _table = new Dictionary<char, int>();
-        public static string workingDirectory = "";
+        
+        private static string _workingDirectory = "";
         private static SkipTable _skipTable;
 
         private static DTE GetCurrentDTE(IServiceProvider provider)
@@ -47,12 +46,13 @@ namespace PLINQSearching
         public static List<LineDetails> GetAllFilesInFolder(string directory,
             List<LineDetails> listToAppend = default(List<LineDetails>))
         {
-   
-
+            
                 if (listToAppend == default(List<LineDetails>))
                     listToAppend = new List<LineDetails>();
+             if (directory == "error") return listToAppend;
 
-                foreach (var d in Directory.GetDirectories(directory))
+
+            foreach (var d in Directory.GetDirectories(directory))
                 {
                     //skip this iteration if the directory is blacklisted
                     if (Blacklist.Folders.Any(d.Contains)) continue;
@@ -60,7 +60,10 @@ namespace PLINQSearching
                     {
                         var file = new FileInfo(f);
                         //skip this iteration if the extension is blacklisted (most likely due to it not being a text file)
-                        if (Blacklist.Extensions.Any(file.Extension.Contains)) continue;
+                        if (Blacklist.Extensions.Any(file.Extension.Contains) || Blacklist.Files.Any(file.Name.Contains))
+                        {
+                            continue;
+                        }
 
                         var lines = File.ReadAllLines(file.FullName);
                         var lineNumber = 0;
@@ -88,7 +91,8 @@ namespace PLINQSearching
             {
                 if (line.LineContent != String.Empty)
                 {
-                    Match match = Regex.Match(line.LineContent, searchTerm);
+                    
+                    Match match = Regex.Match(line.LineContent, searchTerm, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -118,6 +122,7 @@ namespace PLINQSearching
 
             Parallel.ForEach(solutionContents, line =>
             {
+
                 if (line.LineContent.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     res.Add(line);
@@ -125,14 +130,11 @@ namespace PLINQSearching
             });
 
             return res;
-
-            //var results =  GetAllFilesInFolder(GetSolutionDirectory(GetCurrentDTE()))
-            //    .Where(line => line.LineContent.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) > 0).ToList();
-            //ResultsStorage.SearchResultsChanged = true;
-            //return results;
+;
         }
 
-        public static List<LineDetails> BoyerMooreSearch2(string searchTerm, List<LineDetails> solutionContents, string currentDirectory = null)
+
+        public static List<LineDetails> BoyerMooreSearch(string searchTerm,  List<LineDetails> solutionContents, string currentDirectory = null)
         {
             if (currentDirectory == null)
             {
@@ -142,13 +144,28 @@ namespace PLINQSearching
             var retVal = new List<LineDetails>();
 
            Initialize(searchTerm);
-
+ 
 
             Parallel.ForEach(solutionContents, line =>
             {
-                if (SearchBoyer(line, searchTerm))
+                if (line.LineContent == String.Empty) return;
+                var i = 0;
+
+                while (i <= (line.LineContent.Length - searchTerm.Length))
                 {
-                    retVal.Add(line);
+
+                    int index = searchTerm.Length - 1;
+
+                    while (index >= 0 && char.ToUpper(searchTerm[index]) == char.ToUpper(line.LineContent[i + index]))
+                    {
+                        index--;
+                    }
+                    if (index < 0)
+                    {
+                        retVal.Add(line);
+                    }
+
+                    i += Math.Max(_skipTable[line.LineContent[i + index]] - searchTerm.Length + 1 + index, 1);
                 }
             });
 
@@ -164,42 +181,12 @@ namespace PLINQSearching
 
                 for (int i = 0; i < pattern.Length - 1; i++)
                 {
-                    _skipTable[Char.ToLower(pattern[i])] = (byte)(pattern.Length - i - 1);
-                    _skipTable[Char.ToUpper(pattern[i])] = (byte)(pattern.Length - i - 1);
+                    _skipTable[char.ToLower(pattern[i])] = (byte)(pattern.Length - i - 1);
+                    _skipTable[char.ToUpper(pattern[i])] = (byte)(pattern.Length - i - 1);
                 }
         }
 
 
-        /// <summary>
-        /// Searches for the current pattern within the given text
-        /// starting at the specified index.
-        /// </summary>
-        /// <param name="text">Text to search</param>
-        /// <returns></returns>
-        public static bool SearchBoyer(LineDetails text, string searchTerm)
-        {
-            var i = 0;
-            // Loop while there's still room for search term
-            while (i <= (text.LineContent.Length - searchTerm.Length))
-            {
-                // Look if we have a match at this position
-                int j = searchTerm.Length - 1;
-
-                    while (j >= 0 && Char.ToUpper(searchTerm[j]) == Char.ToUpper(text.LineContent[i + j]))
-                        j--;
-                
-                if (j < 0)
-                {
-                    // Match found
-                    return true;
-                }
-
-                // Advance to next comparision
-                i += Math.Max(_skipTable[text.LineContent[i + j]] - searchTerm.Length + 1 + j, 1);
-            }
-            // No match found
-            return false;
-        }
 
  
 
@@ -209,8 +196,8 @@ namespace PLINQSearching
             var unformattedDirectory = dte.Solution.FullName;
             
 
-             workingDirectory = !string.IsNullOrEmpty(unformattedDirectory) ? unformattedDirectory.Remove(unformattedDirectory.LastIndexOf("\\", StringComparison.Ordinal)) : "error";
-            return workingDirectory;
+             _workingDirectory = !string.IsNullOrEmpty(unformattedDirectory) ? unformattedDirectory.Remove(unformattedDirectory.LastIndexOf("\\", StringComparison.Ordinal)) : "error";
+            return _workingDirectory;
         }
     }
 }

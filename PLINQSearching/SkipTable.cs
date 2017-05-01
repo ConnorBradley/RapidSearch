@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLINQSearching
+namespace RapidSearching
 {
-
-    class SkipTable
+    internal class SkipTable
     {
         
         private byte _patternLength;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.Text;
 
-namespace PLINQSearching
+namespace RapidSearching
 {
     public class LineDetails
     {

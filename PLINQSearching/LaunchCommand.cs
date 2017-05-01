@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Windows = EnvDTE.Windows;
 
-namespace PLINQSearching
+namespace RapidSearching
 {
     /// <summary>
     /// Command handler
@@ -102,13 +102,13 @@ namespace PLINQSearching
             // System.Windows.Window window  = new System.Windows.Window
             // {
             //     Title = "Search Results",
-            //     Content = new PLINQSearchWindowControl(),
+            //     Content = new RapidSearchWindowControl(),
             //     this.sizeTO,
 
 
             // };
             //window.Show();
-            ToolWindowPane window = this.package.FindToolWindow(typeof(PLINQSearchWindow), 0, true);
+            ToolWindowPane window = this.package.FindToolWindow(typeof(RapidSearchWindow), 0, true);
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException("Cannot create tool window");

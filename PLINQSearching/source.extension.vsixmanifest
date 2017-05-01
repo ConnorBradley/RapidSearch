@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="PLINQSearching.Connor Bradley.d1071619-1549-4c10-af47-e464e0619212" Version="1.0" Language="en-US" Publisher="Connor Bradley" />
-    <DisplayName>PLINQSearching</DisplayName>
+    <Identity Id="RapidSearch.Connor Bradley.d1071619-1549-4c10-af47-e464e0619212" Version="1.0" Language="en-US" Publisher="Connor Bradley" />
+    <DisplayName>RapidSearch</DisplayName>
     <Description xml:space="preserve">Rapid Searching Plugin</Description>
+    <Icon>1493617141_icon-111-search.ico</Icon>
+    <PreviewImage>1493617141_icon-111-search.ico</PreviewImage>
+    <Tags>Search, Searching, Fast, Rapid, Productivity, Speed</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />

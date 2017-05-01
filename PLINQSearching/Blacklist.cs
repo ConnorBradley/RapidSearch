@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Build.Framework.XamlTypes;
 
-namespace PLINQSearching
+namespace RapidSearching
 {
     public static class Blacklist
     {
@@ -13,8 +13,10 @@ namespace PLINQSearching
         /// List of folders to ignore
         /// TODO: Add an insert/delete function in settings
         /// </summary>
-        public static string[] Folders { get; } = {"packages", "bin", "obj"};
+        public static string[] Folders { get; } = {"packages", "bin", "obj", ".git", "debug", "release"};
 
         public static string[] Extensions { get; } = {".exe", ".dll", ".jpg", ".png", ".gif", ".ico", ".snk", ".suo"};
+
+        public static string[] Files { get; } = {"index"};
     }
 }

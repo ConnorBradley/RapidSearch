@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PLINQSearching;
+using RapidSearching;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLINQSearching.Tests
+namespace RapidSearching.Tests
 {
     [TestClass()]
     public class FileSearchTests
@@ -39,7 +39,7 @@ namespace PLINQSearching.Tests
         {
 
             var solutionContents = FileSearch.GetAllFilesInFolder(TEST_DIRECTORY);
-            var actual = FileSearch.BoyerMooreSearch2("a", solutionContents, TEST_DIRECTORY);
+            var actual = FileSearch.BoyerMooreSearch("a", solutionContents, TEST_DIRECTORY);
             var expected = new List<LineDetails>
             {
                 new LineDetails(new FileInfo("C:\\Users\\conno\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\RapidSearchRelease\\RapidSearch\\TestFolder\\TestFolder\\Test1.txt"), 1, "a"),
